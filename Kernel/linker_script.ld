@@ -1,3 +1,5 @@
+/* Copyright (c) 2023, Pedro Palacios Almendros. */
+
 /* Set the bootstrap assembly label _start as the entry point */
 ENTRY(_start)
 

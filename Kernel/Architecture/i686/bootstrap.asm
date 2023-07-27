@@ -1,3 +1,5 @@
+/* Copyright (c) 2023, Pedro Palacios Almendros. */
+
 /* Declare constants to be use later inside the Multiboot header */
 
 .set MAGIC,     0x1BADB002  /* Multiboot magic constant that lets the bootloader recognize a multiboot binary */
@@ -45,17 +47,31 @@ _start:
     /* Set up the stack to the reserved space */
     mov $stack_top, %esp
 
+    /* Store the Multiboot structure address and magic number passed by the bootloader in register eax.
+       This register may be overwritten before we call the main function. */
+    push %eax
+    push %ebx
+
     /* TODO: Enable paging. */
     /* TODO: Load GDT and interrupts. */
-    /* TODO: Call C++ global constructors. */
-    /* TODO: Pass the multiboot structure to the kernel_main function */
+
+    /* Call global constructors. */
+    call _init
+
+    /* Restore the Multiboot structure address and magic number from stack into eax register*/
+    pop %ebx
+    pop %eax
 
     /* Call the C/C++ kernel_main function */
+    push %eax           /* Pass in the Multiboot structure address as an argument*/
+    push %ebx
     call kernel_main
 
+    /* Call global destructors. */
+    call _fini
+
     /* If the kernel_main function returns (which shouldn't happen), disable interrupts
-       and put the CPU into an infinite loop
-    */
+       and put the CPU into an infinite loop */
     cli
 loop:
     hlt
