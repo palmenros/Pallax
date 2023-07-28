@@ -16,7 +16,7 @@ The project has the following project structure:
 In order to compile the Kernel, `i686-elf-binutils` and `i686-elf-g++` must be installed (or built from source for
 the `i686-elf` target) and in the PATH environment variable.
 
-Once the prerrequisites are met run the following commands from the repository root folder:
+Once the prerequisites are met run the following commands from the repository root folder:
 
 ```shell
 mkdir build && cd build
