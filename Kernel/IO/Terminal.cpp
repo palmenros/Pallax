@@ -4,8 +4,8 @@
 
 Terminal::Terminal(uint16_t *vgaBuffer)
     : vgaBuffer(vgaBuffer),
-      fg_color(VGA::Color::LightGrey),
-      bg_color(VGA::Color::Black),
+      fgColor(VGA::Color::LightGrey),
+      bgColor(VGA::Color::Black),
       cursorX(0),
       cursorY(0) {
     // TODO: ASSERT that vgaBuffer is valid (add ASSERTS)
@@ -19,23 +19,23 @@ Terminal::Terminal(uint16_t *vgaBuffer)
 }
 
 VGA::Color Terminal::get_fg_color() const {
-    return fg_color;
+    return fgColor;
 }
 
 VGA::Color Terminal::get_bg_color() const {
-    return bg_color;
+    return bgColor;
 }
 
 void Terminal::set_fg_color(VGA::Color fgColor) {
-    fg_color = fgColor;
+    this->fgColor = fgColor;
 }
 
 void Terminal::set_bg_color(VGA::Color bgColor) {
-    bg_color = bgColor;
+    this->bgColor = bgColor;
 }
 
 VGA::CharacterColor Terminal::get_character_color() const {
-    return {fg_color, bg_color};
+    return {fgColor, bgColor};
 }
 
 uint16_t Terminal::get_colored_vga_char(char c) const {
@@ -75,4 +75,33 @@ void Terminal::print(const char *str) {
         print(*str);
         str++;
     }
+}
+
+ColorScope Terminal::using_color(VGA::CharacterColor color) {
+    auto old_color = get_character_color();
+
+    set_character_color(color);
+
+    return {*this, old_color};
+}
+
+void Terminal::set_character_color(VGA::CharacterColor color) {
+    set_fg_color(color.foreground);
+    set_bg_color(color.background);
+}
+
+ColorScope Terminal::using_fg_color(VGA::Color color) {
+    return using_color({color, bgColor});
+}
+
+ColorScope Terminal::using_bg_color(VGA::Color color) {
+    return using_color({fgColor, color});
+}
+
+ColorScope::ColorScope(Terminal &terminal, VGA::CharacterColor colorToBeRestored)
+    : terminal(terminal), colorToBeRestored(colorToBeRestored) {
+}
+
+ColorScope::~ColorScope() {
+    terminal.set_character_color(colorToBeRestored);
 }
