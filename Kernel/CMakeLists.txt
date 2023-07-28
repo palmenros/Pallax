@@ -18,6 +18,7 @@ add_library(crti_obj OBJECT Architecture/i686/crti.asm)
 add_library(crtn_obj OBJECT Architecture/i686/crtn.asm)
 
 add_executable(PallaxKernel Architecture/i686/bootstrap.asm main.cpp multiboot.h IO/Terminal.cpp IO/Terminal.h IO/VGA.h)
+target_link_libraries(PallaxKernel Pallib)
 add_dependencies(PallaxKernel crti_obj crtn_obj)
 
 # Add a dependency from the linker script to the executable

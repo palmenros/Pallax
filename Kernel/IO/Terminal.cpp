@@ -43,7 +43,7 @@ uint16_t Terminal::get_colored_vga_char(char c) const {
     return uint16_t(c) | (uint16_t(color) << 8);
 }
 
-void Terminal::print(char c) {
+void Terminal::printChar(char c) {
 
     if (c != '\n') {
         vgaBuffer[cursorX + cursorY * width()] = get_colored_vga_char(c);
@@ -67,13 +67,6 @@ void Terminal::print(char c) {
                 vgaBuffer[x] = get_colored_vga_char(' ');
             }
         }
-    }
-}
-
-void Terminal::print(const char *str) {
-    while (*str != '\0') {
-        print(*str);
-        str++;
     }
 }
 
@@ -104,4 +97,10 @@ ColorScope::ColorScope(Terminal &terminal, VGA::CharacterColor colorToBeRestored
 
 ColorScope::~ColorScope() {
     terminal.set_character_color(colorToBeRestored);
+}
+TerminalOutputStream::TerminalOutputStream(Terminal &terminal)
+    : terminal(terminal) {
+}
+void TerminalOutputStream::writeChar(char c) {
+    terminal.printChar(c);
 }

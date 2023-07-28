@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "Pallib/OutputStream.h"
 #include "VGA.h"
 #include <stddef.h>
 #include <stdint.h>
@@ -38,10 +39,7 @@ public:
     [[nodiscard]] ColorScope using_fg_color(VGA::Color color);
     [[nodiscard]] ColorScope using_bg_color(VGA::Color color);
 
-    void print(char c);
-
-    // TODO: Add support for string views
-    void print(const char *str);
+    void printChar(char c);
 
     void set_character_color(VGA::CharacterColor color);
 
@@ -53,4 +51,17 @@ private:
 
 private:
     [[nodiscard]] uint16_t get_colored_vga_char(char c) const;
+};
+
+class TerminalOutputStream : public OutputStream {
+public:
+    explicit TerminalOutputStream(Terminal &terminal);
+
+protected:
+    void writeChar(char c) override;
+
+protected:
+    Terminal &terminal;
+
+    friend class Terminal;
 };
