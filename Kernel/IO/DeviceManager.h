@@ -6,6 +6,9 @@
 
 class DeviceManager {
 
+public:
+    static DeviceManager &the();
+
     void register_terminal(Terminal &terminal);
     Terminal &get_terminal();
     [[nodiscard]] bool has_terminal();

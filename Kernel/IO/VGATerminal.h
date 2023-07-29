@@ -19,7 +19,7 @@ protected:
 private:
     uint16_t *m_vga_buffer;
 
-    [[nodiscard]] uint16_t get_colored_vga_char(char c, VGA::CharacterColor color) const;
+    [[nodiscard]] static uint16_t get_colored_vga_char(char c, VGA::CharacterColor color);
 
     static VGATerminal s_terminal;
 };

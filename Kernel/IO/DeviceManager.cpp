@@ -12,5 +12,10 @@ Terminal &DeviceManager::get_terminal() {
 }
 
 bool DeviceManager::has_terminal() {
-    return m_terminal == nullptr;
+    return m_terminal != nullptr;
+}
+
+DeviceManager &DeviceManager::the() {
+    static DeviceManager device_manager;
+    return device_manager;
 }

@@ -17,7 +17,7 @@ set(PALLAX_LINK_LAST_OBJECTS final_dos)
 add_library(crti_obj OBJECT Architecture/i686/crti.asm)
 add_library(crtn_obj OBJECT Architecture/i686/crtn.asm)
 
-add_executable(PallaxKernel Architecture/i686/bootstrap.asm main.cpp multiboot.h IO/Terminal.cpp IO/Terminal.h IO/VGA.h IO/VGATerminal.cpp IO/VGATerminal.h IO/DeviceManager.cpp IO/DeviceManager.h)
+add_executable(PallaxKernel Architecture/i686/bootstrap.asm main.cpp multiboot.h IO/Terminal.cpp IO/Terminal.h IO/VGA.h IO/VGATerminal.cpp IO/VGATerminal.h IO/DeviceManager.cpp IO/DeviceManager.h kstdio.h)
 target_link_libraries(PallaxKernel PalLib)
 add_dependencies(PallaxKernel crti_obj crtn_obj)
 

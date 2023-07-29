@@ -5,7 +5,7 @@
 // TODO: Convert this into an optional and init it
 VGATerminal VGATerminal::s_terminal{(uint16_t *) 0xB8000};
 
-uint16_t VGATerminal::get_colored_vga_char(char c, VGA::CharacterColor color) const {
+uint16_t VGATerminal::get_colored_vga_char(char c, VGA::CharacterColor color) {
     uint8_t color_byte = color.to_vga_color_byte();
     return uint16_t(c) | (uint16_t(color_byte) << 8);
 }
