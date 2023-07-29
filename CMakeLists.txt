@@ -12,8 +12,8 @@ if (NOT ${CMAKE_SYSTEM_NAME} STREQUAL "Generic")
             " You are not using the correct cross-compiling toolchain.")
 endif ()
 
-# Compile Pallib (C++ Library)
-add_subdirectory(Pallib)
+# Compile PalLib (C++ Library)
+add_subdirectory(PalLib)
 
 # Compile kernel
 add_subdirectory(Kernel)
