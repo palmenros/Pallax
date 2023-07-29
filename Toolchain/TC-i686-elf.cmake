@@ -14,7 +14,7 @@ set(SIZE i686-elf-size)
 
 # TODO: Maybe move compiler flags outside the Toolchain file?
 # TODO: Change the -O2 flag depending on debug level
-set(PALLAX_C_FLAGS "-O2 -ffreestanding -Wall -Wextra -fno-use-cxa-atexit")
+set(PALLAX_C_FLAGS "-O2 -g -ffreestanding -Wall -Wextra -fno-use-cxa-atexit")
 set(PALLAX_CXX_FLAGS "${PALLAX_C_FLAGS} -fno-exceptions -fno-rtti")
 
 set(CMAKE_C_FLAGS "${PALLAX_C_FLAGS}")
