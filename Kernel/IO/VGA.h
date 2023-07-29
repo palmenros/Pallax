@@ -30,13 +30,13 @@ namespace VGA {
     };
 
     struct CharacterColor {
-        Color foreground;
-        Color background;
+        Color m_foreground;
+        Color m_background;
 
-        CharacterColor(Color foreground, Color background) : foreground(foreground), background(background) {}
+        CharacterColor(Color foreground, Color background) : m_foreground(foreground), m_background(background) {}
 
         [[nodiscard]] uint8_t to_vga_color_byte() const {
-            return uint8_t(foreground) | (uint8_t(background) << 4);
+            return uint8_t(m_foreground) | (uint8_t(m_background) << 4);
         }
     };
 

@@ -10,9 +10,27 @@ namespace Pal {
     public:
         OutputStream &operator<<(char);
         OutputStream &operator<<(const char *);
+        OutputStream &operator<<(char *);
         OutputStream &operator<<(bool);
 
-        // TODO: Add support for numbers
+        OutputStream &operator<<(uint32_t);
+        OutputStream &operator<<(int32_t);
+
+        OutputStream &operator<<(uint16_t);
+        OutputStream &operator<<(uint8_t);
+        OutputStream &operator<<(int16_t);
+        OutputStream &operator<<(int8_t);
+
+        OutputStream &operator<<(int);
+        OutputStream &operator<<(unsigned int);
+
+        OutputStream &operator<<(void *);
+
+        template<class T>
+        OutputStream &operator<<(T *ptr) {
+            *this << (void *) ptr;
+            return *this;
+        }
 
     protected:
         virtual void

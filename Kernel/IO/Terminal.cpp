@@ -2,69 +2,49 @@
 
 #include "Terminal.h"
 
-Terminal::Terminal(uint16_t *vgaBuffer)
-    : vgaBuffer(vgaBuffer),
-      fgColor(VGA::Color::LightGrey),
-      bgColor(VGA::Color::Black),
-      cursorX(0),
-      cursorY(0) {
-    // TODO: ASSERT that vgaBuffer is valid (add ASSERTS)
-
-    // Blank the screen
-    for (size_t x = 0; x < width(); x++) {
-        for (size_t y = 0; y < height(); y++) {
-            vgaBuffer[x + y * width()] = get_colored_vga_char(' ');
-        }
-    }
-}
-
 VGA::Color Terminal::get_fg_color() const {
-    return fgColor;
+    return m_fg_color;
 }
 
 VGA::Color Terminal::get_bg_color() const {
-    return bgColor;
+    return m_bg_color;
 }
 
-void Terminal::set_fg_color(VGA::Color fgColor) {
-    this->fgColor = fgColor;
+void Terminal::set_fg_color(VGA::Color fg_color) {
+    this->m_fg_color = fg_color;
 }
 
-void Terminal::set_bg_color(VGA::Color bgColor) {
-    this->bgColor = bgColor;
+void Terminal::set_bg_color(VGA::Color bg_color) {
+    this->m_bg_color = bg_color;
 }
 
 VGA::CharacterColor Terminal::get_character_color() const {
-    return {fgColor, bgColor};
+    return {m_fg_color, m_bg_color};
 }
 
-uint16_t Terminal::get_colored_vga_char(char c) const {
-    uint8_t color = get_character_color().to_vga_color_byte();
-    return uint16_t(c) | (uint16_t(color) << 8);
-}
 
-void Terminal::printChar(char c) {
+void Terminal::write_char(char c) {
 
     if (c != '\n') {
-        vgaBuffer[cursorX + cursorY * width()] = get_colored_vga_char(c);
+        put_char(c, m_cursor_x, m_cursor_y, get_character_color());
     }
 
     // Advance cursor
-    cursorX++;
+    m_cursor_x++;
 
-    if (c == '\n' || cursorX == width()) {
+    if (c == '\n' || m_cursor_x == width()) {
         // Switch to new line
-        cursorX = 0;
-        cursorY++;
+        m_cursor_x = 0;
+        m_cursor_y++;
 
         // TODO: Add scrolling
         // Maybe we have overflowed, in that case, move to the first line again and clear it
-        if (cursorY == height()) {
-            cursorY = 0;
+        if (m_cursor_y == height()) {
+            m_cursor_y = 0;
 
             // Clear first line
             for (size_t x = 0; x < width(); x++) {
-                vgaBuffer[x] = get_colored_vga_char(' ');
+                put_char(' ', x, 0, get_character_color());
             }
         }
     }
@@ -79,28 +59,24 @@ ColorScope Terminal::using_color(VGA::CharacterColor color) {
 }
 
 void Terminal::set_character_color(VGA::CharacterColor color) {
-    set_fg_color(color.foreground);
-    set_bg_color(color.background);
+    set_fg_color(color.m_foreground);
+    set_bg_color(color.m_background);
 }
 
 ColorScope Terminal::using_fg_color(VGA::Color color) {
-    return using_color({color, bgColor});
+    return using_color({color, m_bg_color});
 }
 
 ColorScope Terminal::using_bg_color(VGA::Color color) {
-    return using_color({fgColor, color});
+    return using_color({m_fg_color, color});
 }
 
-ColorScope::ColorScope(Terminal &terminal, VGA::CharacterColor colorToBeRestored)
-    : terminal(terminal), colorToBeRestored(colorToBeRestored) {
+Terminal::Terminal(VGA::Color fg_color, VGA::Color bg_color) : m_fg_color(fg_color), m_bg_color(bg_color), m_cursor_x(0), m_cursor_y(0) {}
+
+ColorScope::ColorScope(Terminal &terminal, VGA::CharacterColor color_to_be_restored)
+    : m_terminal(terminal), m_color_to_be_restored(color_to_be_restored) {
 }
 
 ColorScope::~ColorScope() {
-    terminal.set_character_color(colorToBeRestored);
-}
-TerminalOutputStream::TerminalOutputStream(Terminal &terminal)
-    : terminal(terminal) {
-}
-void TerminalOutputStream::writeChar(char c) {
-    terminal.printChar(c);
+    m_terminal.set_character_color(m_color_to_be_restored);
 }
