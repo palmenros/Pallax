@@ -1,13 +1,14 @@
 // Copyright (c) 2023, Pedro Palacios Almendros.
 
 #include "DeviceManager.h"
+#include "../kstdio.h"
 
 void DeviceManager::register_terminal(Terminal &terminal) {
     this->m_terminal = &terminal;
 }
 
 Terminal &DeviceManager::get_terminal() {
-    // TODO: Assert that terminal is not a null pointer or return Option<Terminal&>
+    ASSERT(m_terminal != nullptr);
     return *m_terminal;
 }
 

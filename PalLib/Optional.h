@@ -32,17 +32,17 @@ namespace Pal {
         // value
 
         [[nodiscard]] T &value() & {
-            // TODO: ASSERT has_value
+            ASSERT(has_value());
             return m_val;
         }
 
         [[nodiscard]] const T &value() const & {
-            // TODO: ASSERT has_value
+            ASSERT(has_value());
             return m_val;
         }
 
         [[nodiscard]] T &&value() && {
-            // TODO: ASSERT has_value
+            ASSERT(has_value());
             return move(m_val);
         }
 

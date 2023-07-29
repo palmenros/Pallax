@@ -1,6 +1,7 @@
 // Copyright (c) 2023, Pedro Palacios Almendros.
 
 #include "VGATerminal.h"
+#include "../kstdio.h"
 
 // TODO: Convert this into an optional and init it
 VGATerminal VGATerminal::s_terminal{(uint16_t *) 0xB8000};
@@ -17,7 +18,7 @@ void VGATerminal::put_char(char c, size_t x, size_t y, VGA::CharacterColor color
 VGATerminal::VGATerminal(uint16_t *vga_buffer)
     : Terminal(VGA::Color::LightGrey, VGA::Color::Black), m_vga_buffer(vga_buffer) {
 
-    // TODO: ASSERT that vgaBuffer is valid (add ASSERTS)
+    ASSERT(vga_buffer != nullptr);
 
     // Blank the screen
     for (size_t x = 0; x < VGATerminal::width(); x++) {

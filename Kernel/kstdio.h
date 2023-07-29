@@ -13,30 +13,16 @@ protected:
             device_manager.get_terminal().write_char(c);
         }
     }
-} kout;
+};
+
+extern KernelOutputStream kout;
 
 // TODO: Convert panic into a std::format like interface.
-[[noreturn]] void kpanic(const char *str) {
-    auto &device_manager = DeviceManager::the();
-    if (device_manager.has_terminal()) {
-        device_manager.get_terminal().set_bg_color(VGA::Color::Red);
-    }
+[[noreturn]] void kpanic(const char *str);
 
-    kout << "KERNEL PANIC: " << str << '\n';
+void assert_impl(bool condition, const char *msg);
 
-    // TODO: Disable interrupts?
-    while (true) {
-        asm volatile("hlt");
-    }
-
-    __builtin_unreachable();
-}
-
-static void assert_impl(bool condition, const char *msg) {
-    if (!condition) {
-        kpanic(msg);
-    }
-}
+#ifndef ASSERT
 
 // These macros are needed to stringize the __LINE__ integer constant
 #define PAL_STRINGIZE(x) PAL_STRINGIZE2(x)
@@ -44,3 +30,5 @@ static void assert_impl(bool condition, const char *msg) {
 #define __LINE_STRING__ PAL_STRINGIZE(__LINE__)
 
 #define ASSERT(COND) assert_impl(COND, "Assertion failed: " #COND " at " __FILE__ ", line " __LINE_STRING__)
+
+#endif

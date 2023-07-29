@@ -21,11 +21,14 @@ extern "C" void kernel_main(multiboot_info *mb_info, int32_t mb_magic) {
         kpanic("Multiboot bootloader magic incorrect!\n");
     }
 
+    Pal::Optional<int> maybe_int = {};
+    kout << maybe_int.value();
+
     if (mb_info->flags & MULTIBOOT_INFO_BOOT_LOADER_NAME) {
         kout << "Bootloader: " << (char *) mb_info->boot_loader_name << "\n";
     } else {
         kpanic("ERROR: Bootloader name not provided!\n");
     }
-    
+
     kout << (void *) MULTIBOOT_BOOTLOADER_MAGIC << '\n';
 }

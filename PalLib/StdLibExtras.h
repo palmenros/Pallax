@@ -12,7 +12,7 @@ inline void operator delete(void *, void *) noexcept {};
 inline void operator delete[](void *, void *) noexcept {};
 
 namespace Pal {
-    
+
     // Move
 
     template<typename T>
@@ -34,5 +34,20 @@ namespace Pal {
         return static_cast<T &&>(t);
     }
 
-
 }// namespace Pal
+
+// Assert
+
+void assert_impl(bool condition, const char *msg);
+
+// These macros are needed to stringize the __LINE__ integer constant
+
+#ifndef ASSERT
+
+#define PAL_STRINGIZE(x) PAL_STRINGIZE2(x)
+#define PAL_STRINGIZE2(x) #x
+#define __LINE_STRING__ PAL_STRINGIZE(__LINE__)
+
+#define ASSERT(COND) ::assert_impl(COND, "Assertion failed: " #COND " at " __FILE__ ", line " __LINE_STRING__)
+
+#endif
