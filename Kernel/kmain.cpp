@@ -10,6 +10,9 @@ extern "C" void kernel_main(multiboot_info *mb_info, int32_t mb_magic) {
     // TODO: Better detect the VGA address either with Multiboot or ACPI
     VGATerminal::initialize();
 
+    SerialPort COM1{SerialPort::COM1_ADDR};
+    DeviceManager::the().register_debug_output_serial_port(COM1);
+
     kout << "Pallax Kernel initialization...\n";
 
     if (mb_magic == MULTIBOOT_BOOTLOADER_MAGIC) {
@@ -65,12 +68,5 @@ extern "C" void kernel_main(multiboot_info *mb_info, int32_t mb_magic) {
         }
 
         kout << ")\n";
-    }
-
-    SerialPort COM1{SerialPort::COM1_ADDR};
-    COM1 << "Esto es echo:\r\n";
-
-    while (char c = COM1.recv_byte()) {
-        COM1 << c;
     }
 }

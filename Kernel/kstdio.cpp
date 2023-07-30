@@ -3,6 +3,7 @@
 #include "kstdio.h"
 
 KernelOutputStream kout;
+KernelDebugOutputStream kdbg;
 
 void assert_impl(bool condition, const char *msg) {
     if (!condition) {

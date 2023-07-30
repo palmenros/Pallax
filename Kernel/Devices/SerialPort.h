@@ -17,8 +17,7 @@ public:
 
     // Is there data available to read from the serial?
     [[nodiscard]] bool data_available() const;
-
-protected:
+    
     void write_char(char c) override;
 
 public:
