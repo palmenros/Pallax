@@ -1,7 +1,7 @@
 // Copyright (c) 2023, Pedro Palacios Almendros.
 
 #include "DeviceManager.h"
-#include "../kstdio.h"
+#include "kstdio.h"
 
 void DeviceManager::register_terminal(Terminal &terminal) {
     this->m_terminal = &terminal;

@@ -37,4 +37,4 @@ namespace Pal {
         write_char(char c) = 0;
     };
 
-};// namespace Pal
+}// namespace Pal

@@ -8,18 +8,15 @@ set(LINKER_SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/linker_script.ld")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -nostdlib -lgcc -T ${LINKER_SCRIPT}")
 
 # Create executable with given source files
-
-# TODO: Set first and last objects to link into kernel to support global constructors and destructors.
-#  These need to be linked in an specific order that is important to maintain.
-set(PALLAX_LINK_FIRST_OBJECTS inicio_dos)
-set(PALLAX_LINK_LAST_OBJECTS final_dos)
-
 add_library(crti_obj OBJECT Architecture/i686/crti.asm)
 add_library(crtn_obj OBJECT Architecture/i686/crtn.asm)
 
-add_executable(PallaxKernel Architecture/i686/bootstrap.asm kmain.cpp multiboot.h IO/Terminal.cpp IO/Terminal.h IO/VGA.h IO/VGATerminal.cpp IO/VGATerminal.h IO/DeviceManager.cpp IO/DeviceManager.h kstdio.h kstdio.cpp)
+add_executable(PallaxKernel Architecture/i686/bootstrap.asm kmain.cpp multiboot.h Devices/Terminal.cpp Devices/Terminal.h Devices/VGA.h Devices/VGATerminal.cpp Devices/VGATerminal.h Devices/DeviceManager.cpp Devices/DeviceManager.h kstdio.h kstdio.cpp Devices/SerialPort.cpp Devices/SerialPort.h Architecture/i686/io.cpp Devices/io.h)
 target_link_libraries(PallaxKernel PalLib)
 add_dependencies(PallaxKernel crti_obj crtn_obj)
+
+# Set the root of the Kernel source folder as an in cude directory
+target_include_directories(PallaxKernel PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
 
 # Add a dependency from the linker script to the executable
 set_target_properties(PallaxKernel PROPERTIES LINK_DEPENDS ${LINKER_SCRIPT})

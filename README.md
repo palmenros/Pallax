@@ -7,7 +7,7 @@ Pallax is a hobby Operating-System in development. It is written using C++20.
 The project has the following project structure:
 
 - `Kernel` contains all files related to the kernel
-    - `Architecture` contains architecture-dependent files and drivers.
+    - `Architecture` contains architecture dependent files and drivers.
 - `Pallib` contains a custom C++ standard library which is linked into the kernel.
 - `Toolchain` contains a CMake file with the needed cross-compilers.
 

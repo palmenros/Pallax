@@ -42,6 +42,8 @@ void Terminal::write_char(char c) {
         if (m_cursor_y == height()) {
             m_cursor_y = 0;
 
+            // TODO: Clearing the first line is not enough, because the terminal text will wrap
+            //  Implement proper scrolling
             // Clear first line
             for (size_t x = 0; x < width(); x++) {
                 put_char(' ', x, 0, get_character_color());

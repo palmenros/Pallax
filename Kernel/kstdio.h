@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Kernel/IO/DeviceManager.h"
+#include "Devices/DeviceManager.h"
 #include "PalLib/OutputStream.h"
 #include "PalLib/StdLibExtras.h"
 

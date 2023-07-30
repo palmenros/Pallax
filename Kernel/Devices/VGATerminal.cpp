@@ -1,7 +1,7 @@
 // Copyright (c) 2023, Pedro Palacios Almendros.
 
 #include "VGATerminal.h"
-#include "../kstdio.h"
+#include "kstdio.h"
 
 Pal::Optional<VGATerminal> VGATerminal::s_maybe_terminal = {};
 

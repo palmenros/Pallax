@@ -22,6 +22,4 @@ void kpanic(const char *str) {
     while (true) {
         asm volatile("hlt");
     }
-
-    __builtin_unreachable();
 }
