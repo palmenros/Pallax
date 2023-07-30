@@ -15,7 +15,9 @@ add_executable(PallaxKernel Architecture/i686/bootstrap.asm kmain.cpp multiboot.
         Devices/Terminal.h Devices/VGA.h Devices/VGATerminal.cpp Devices/VGATerminal.h Devices/DeviceManager.cpp
         Devices/DeviceManager.h kstdio.h kstdio.cpp Devices/SerialPort.cpp Devices/SerialPort.h
         Architecture/i686/io.cpp Devices/io.h BootInformation.cpp BootInformation.h Memory/PageUtils.cpp
-        Memory/PageUtils.h)
+        Memory/PageUtils.h
+        Memory/PhysicalPageAllocator.cpp
+        Memory/PhysicalPageAllocator.h)
 target_link_libraries(PallaxKernel PalLib)
 add_dependencies(PallaxKernel crti_obj crtn_obj)
 

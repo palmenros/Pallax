@@ -4,10 +4,8 @@
 #include "Devices/SerialPort.h"
 #include "Devices/VGATerminal.h"
 #include "Memory/PageUtils.h"
+#include "Memory/PhysicalPageAllocator.h"
 #include "kstdio.h"
-
-extern char __KERNEL_END_;
-extern char __KERNEL_START_;
 
 extern "C" void kernel_main(struct multiboot_info *mb_info, int32_t mb_magic) {
     // TODO: Better detect the VGA address either with Multiboot or ACPI
@@ -24,9 +22,6 @@ extern "C" void kernel_main(struct multiboot_info *mb_info, int32_t mb_magic) {
     boot_info.print_memory_map();
 
     kout << "Memory size: " << (void *) boot_info.get_upper_memory_size_bytes() << '\n';
-    kout << "Kernel start: " << (void *) &__KERNEL_START_ << '\n';
-    kout << "Kernel end: " << (void *) &__KERNEL_END_ << '\n';
 
-    kout << (void *) PageUtils::ceil_align_to_page(0x3451000) << '\n';
-    kout << (void *) PageUtils::ceil_align_to_page(0x345bf03) << '\n';
+    PhysicalPageAllocator physical_page_allocator{boot_info};
 }
