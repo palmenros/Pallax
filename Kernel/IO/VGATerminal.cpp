@@ -3,8 +3,7 @@
 #include "VGATerminal.h"
 #include "../kstdio.h"
 
-// TODO: Convert this into an optional and init it
-VGATerminal VGATerminal::s_terminal{(uint16_t *) 0xB8000};
+Pal::Optional<VGATerminal> VGATerminal::s_maybe_terminal = {};
 
 uint16_t VGATerminal::get_colored_vga_char(char c, VGA::CharacterColor color) {
     uint8_t color_byte = color.to_vga_color_byte();
@@ -37,5 +36,14 @@ size_t VGATerminal::width() {
 }
 
 VGATerminal &VGATerminal::the() {
-    return s_terminal;
+    return s_maybe_terminal.value();
+}
+
+bool VGATerminal::is_initialized() {
+    return s_maybe_terminal.has_value();
+}
+
+void VGATerminal::initialize(uint16_t *vga_buffer) {
+    s_maybe_terminal = VGATerminal{vga_buffer};
+    DeviceManager::the().register_terminal(VGATerminal::the());
 }
