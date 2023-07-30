@@ -11,6 +11,7 @@ SECTIONS
 
     /* We will load the Kernel at 1 MiB */
     . = 1M;
+    __KERNEL_START_ = .;
 
     /*
        The multiboot header must be within the first 8 KiB of the image, so we
@@ -40,6 +41,10 @@ SECTIONS
 		*(COMMON)
 		*(.bss)
     }
+
+    /* Create a symbol marking the end of the kernel */
+
+    __KERNEL_END_ = .;
 
     /* FIXME: Add more sections here if needed */
 }

@@ -11,7 +11,11 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -nostdlib -lgcc -T ${LINKE
 add_library(crti_obj OBJECT Architecture/i686/crti.asm)
 add_library(crtn_obj OBJECT Architecture/i686/crtn.asm)
 
-add_executable(PallaxKernel Architecture/i686/bootstrap.asm kmain.cpp multiboot.h Devices/Terminal.cpp Devices/Terminal.h Devices/VGA.h Devices/VGATerminal.cpp Devices/VGATerminal.h Devices/DeviceManager.cpp Devices/DeviceManager.h kstdio.h kstdio.cpp Devices/SerialPort.cpp Devices/SerialPort.h Architecture/i686/io.cpp Devices/io.h)
+add_executable(PallaxKernel Architecture/i686/bootstrap.asm kmain.cpp multiboot.h Devices/Terminal.cpp
+        Devices/Terminal.h Devices/VGA.h Devices/VGATerminal.cpp Devices/VGATerminal.h Devices/DeviceManager.cpp
+        Devices/DeviceManager.h kstdio.h kstdio.cpp Devices/SerialPort.cpp Devices/SerialPort.h
+        Architecture/i686/io.cpp Devices/io.h BootInformation.cpp BootInformation.h Memory/PageUtils.cpp
+        Memory/PageUtils.h)
 target_link_libraries(PallaxKernel PalLib)
 add_dependencies(PallaxKernel crti_obj crtn_obj)
 

@@ -5,6 +5,11 @@
 #include "TypeTraits.h"
 #include <stddef.h>
 
+// Byte sizes
+#define KB 1024
+#define MB (1024 * KB)
+#define GB (1024 * MB)
+
 // New
 inline void *operator new(size_t, void *p) noexcept { return p; }
 inline void *operator new[](size_t, void *p) noexcept { return p; }
